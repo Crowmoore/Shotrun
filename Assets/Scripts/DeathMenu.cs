@@ -2,29 +2,24 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class PauseMenu : MonoBehaviour {
-
-	public Canvas pauseMenu;
+public class DeathMenu : MonoBehaviour {
+	
+	public Canvas deathMenu;
 	public Button pauseText;
 	
 	// Use this for initialization
 	void Start () {
-		pauseMenu = pauseMenu.GetComponent<Canvas>();
+		deathMenu = deathMenu.GetComponent<Canvas>();
 		pauseText = pauseText.GetComponent<Button>();
-		pauseMenu.enabled = false;
+		deathMenu.enabled = false;
 	}
 	
-	public void PausePress() {
+	public void OpenMenu() {
 		Time.timeScale = 0;
-		pauseMenu.enabled = true;
+		deathMenu.enabled = true;
 		pauseText.enabled = false;
 	}
 	
-	public void ResumePress() {
-		Time.timeScale = 1;
-		pauseMenu.enabled = false;
-		pauseText.enabled = true;
-	}
 	public void RetryPress() {
 		Application.LoadLevel(Application.loadedLevel);
 	}

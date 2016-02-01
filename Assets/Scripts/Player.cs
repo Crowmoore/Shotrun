@@ -4,9 +4,9 @@ using System.Collections;
 [RequireComponent (typeof (Controller))]
 public class Player : MonoBehaviour {
 
-	public float moveSpeed = 8;
-	public float gravity = -40;
-	public float jumpVelocity = 10;
+	private float moveSpeed = 8;
+	private float gravity = -40;
+	private float jumpVelocity = 10;
 	Vector3 velocity;
 
 	Controller controller;

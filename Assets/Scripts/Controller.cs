@@ -47,13 +47,14 @@ public class Controller : MonoBehaviour {
 			Debug.DrawRay(rayOrigin, Vector2.right * directionX * rayLength, Color.red);
 			
 			if(hit) {
-				velocity.x = (hit.distance - skinWidth) * directionX;
-				rayLength = hit.distance;
-
+				//velocity.x = (hit.distance - skinWidth) * directionX;
+				//rayLength = hit.distance;
 				collisions.left = directionX == -1;
 				collisions.right = directionX == 1;
-				Destroy(gameObject);
-				Application.LoadLevel(Application.loadedLevel);
+				if(collisions.right) {
+					PlayerDeath();
+					Destroy(gameObject);
+				}
 			}
 		}
 	}
@@ -70,18 +71,21 @@ public class Controller : MonoBehaviour {
 
 			if(hit) {
 				velocity.y = (hit.distance - skinWidth) * directionY;
-				rayLength = hit.distance;
+				//rayLength = hit.distance;
 
 				collisions.below = directionY == -1;
 				collisions.above = directionY == 1;
 				if(collisions.above) {
+					PlayerDeath();
 					Destroy(gameObject);
-					Application.LoadLevel(Application.loadedLevel);
 				}
 			}
 		}
 	}
-
+	void PlayerDeath() {
+		var death = GameObject.Find("DeathMenu").GetComponent<DeathMenu>();
+		death.OpenMenu();
+	}
 	void UpdateRaycastOrigins() {
 		Bounds bounds = collider.bounds;
 		bounds.Expand (skinWidth * -2);
