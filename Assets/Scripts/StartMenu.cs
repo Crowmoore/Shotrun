@@ -6,7 +6,8 @@ public class StartMenu : MonoBehaviour {
 	
 	public Canvas startMenu;
 	public Button pauseText;
-	
+
+	Player playerScript;
 	// Use this for initialization
 	void Start () {
 		Time.timeScale = 0;

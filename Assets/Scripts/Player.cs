@@ -9,21 +9,28 @@ public class Player : MonoBehaviour {
 	private float jumpVelocity = 10;
 	Vector3 velocity;
 
-	Controller controller;
+	Animation anim;
+
+	Controller playerController;
 
 	void Start () {
-		controller = GetComponent<Controller>();
+		playerController = GetComponent<Controller>();
+		anim = GetComponent<Animation>();
+		anim.Play("run");
 	}
 
 	void Update () {
-		if(!controller.collisions.below) {
+		if(!playerController.collisions.below) {
 			velocity.y += gravity * Time.deltaTime;
 		}
-		if(Input.GetMouseButton(1) && controller.collisions.below) {
+		else {
+			anim.Play("run");
+		}
+		if(Input.GetMouseButton(1) && playerController.collisions.below) {
 			Jump(1);
 		}
 		velocity.x = moveSpeed;
-		controller.Move(velocity * Time.deltaTime);
+		playerController.Move(velocity * Time.deltaTime);
 	}
  	void OnTriggerEnter2D(Collider2D other) {
 		if(other.gameObject.tag == "JumpPad") {
@@ -33,6 +40,7 @@ public class Player : MonoBehaviour {
 	}
 	public void Jump(int multiplier) {
 			velocity.y = jumpVelocity * multiplier;
+			anim.Play("jump");
 			Debug.Log("Jumped");
 	}
 }

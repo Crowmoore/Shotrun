@@ -17,7 +17,7 @@ public class MoveBulletTrail : MonoBehaviour {
 	
 	void Update () {
 		transform.Translate(Vector2.right * Time.deltaTime * moveSpeed);
-		Destroy(gameObject, 0.5f);
+		Destroy(gameObject, 0.3f);
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
