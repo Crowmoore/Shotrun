@@ -17,16 +17,17 @@ public class MoveBulletTrail : MonoBehaviour {
 	
 	void Update () {
 		transform.Translate(Vector2.right * Time.deltaTime * moveSpeed);
-		Destroy(gameObject, 0.3f);
+		Destroy(gameObject, 0.15f);
 	}
 
 	void OnCollisionEnter2D(Collision2D collision) {
 		if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Obstacle")) {
-			Instantiate(bulletHitPrefab, bullet.position, bullet.rotation);
 			Destroy(gameObject);
+			Instantiate(bulletHitPrefab, bullet.position, bullet.rotation);
 			Debug.Log("Hit obstacle!");
 		}
 		if(collision.collider.gameObject.layer == LayerMask.NameToLayer("Breakable")) {
+			Destroy(gameObject);
 			Instantiate(bulletHitPrefab, bullet.position, bullet.rotation);
 			GameObject wall = collision.collider.gameObject;
 			Rigidbody2D wallRb = wall.GetComponent<Rigidbody2D>();
@@ -34,7 +35,6 @@ public class MoveBulletTrail : MonoBehaviour {
 			wallRb.AddForce(new Vector2(40, 10), ForceMode2D.Impulse);
 			wallRb.AddTorque(-30, ForceMode2D.Impulse);
 			wallCollider.enabled = false;
-			Destroy(gameObject);
 			Destroy(wall, 2);
 			Debug.Log("Hit breakable!");
 		}

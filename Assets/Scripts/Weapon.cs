@@ -12,7 +12,7 @@ public class Weapon : MonoBehaviour {
 	Transform gunPoint;
 
 	void Awake () {
-		source = GetComponent<AudioSource>();
+		//source = GetComponent<AudioSource>();
 		gunPoint = transform.FindChild("Gunpoint");
 		if(gunPoint == null) {
 			Debug.LogError("No gunpoint found");
@@ -26,7 +26,7 @@ public class Weapon : MonoBehaviour {
 	}
 
 	public void Shoot() {
-		source.Play();
+		//source.Play();
 		Instantiate(bulletTrailPrefab, gunPoint.position, gunPoint.rotation);
 		Effect();
 	}
@@ -34,7 +34,7 @@ public class Weapon : MonoBehaviour {
 	void Effect() {
 		Transform flashInstance = Instantiate(muzzleFlashPrefab, gunPoint.position, gunPoint.rotation) as Transform;
 		flashInstance.parent = gunPoint;
-		float size = Random.Range(1.6f, 2.2f);
+		float size = Random.Range(2.6f, 3.2f);
 		flashInstance.localScale = new Vector2(size, size);
 		Destroy(flashInstance.gameObject, 0.05f);
 	}
