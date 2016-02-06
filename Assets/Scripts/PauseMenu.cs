@@ -4,31 +4,49 @@ using System.Collections;
 
 public class PauseMenu : MonoBehaviour {
 
-	public Canvas pauseMenu;
-	public Button pauseText;
-	
+	public Canvas pauseCanvas;
+	public Button pauseButton;
+
+	private float paused = 0;
+	private float playing = 1;
+	private bool show = true;
+	private bool hide = false;
 	// Use this for initialization
 	void Start () {
-		pauseMenu = pauseMenu.GetComponent<Canvas>();
-		pauseText = pauseText.GetComponent<Button>();
-		pauseMenu.enabled = false;
+		SetPauseCanvas();
+		SetPauseButton();
+		Menu(hide);
 	}
 	
-	public void PausePress() {
-		Time.timeScale = 0;
-		pauseMenu.enabled = true;
-		pauseText.enabled = false;
+	public void OnPauseButtonPress() {
+		SetTimeScale(paused);
+		Menu(show);
+		PauseButton(hide);
 	}
-	
-	public void ResumePress() {
-		Time.timeScale = 1;
-		pauseMenu.enabled = false;
-		pauseText.enabled = true;
+	public void OnResumeButtonPress() {
+		SetTimeScale(playing);
+		Menu(hide);
+		PauseButton(show);
 	}
-	public void RetryPress() {
+	public void OnRetryButtonPress() {
 		Application.LoadLevel(Application.loadedLevel);
 	}
-	public void ExitGame() {
+	public void OnQuitButtonPress() {
 		Application.LoadLevel("Menu");
+	}
+	private void PauseButton(bool state) {
+		pauseButton.enabled = state;
+	}
+	private void Menu(bool state) {
+		pauseCanvas.enabled = state;
+	}
+	private void SetTimeScale(float scale) {
+		Time.timeScale = scale;
+	}
+	private void SetPauseCanvas() {
+		pauseCanvas = pauseCanvas.GetComponent<Canvas>();
+	}
+	private void SetPauseButton() {
+		pauseButton = pauseButton.GetComponent<Button>();
 	}
 }

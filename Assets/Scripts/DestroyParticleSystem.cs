@@ -3,8 +3,10 @@ using System.Collections;
 
 public class DestroyParticleSystem : MonoBehaviour {
 
+	private float timeToDie = 3;
+
 	void Start () {
-		Destroy(gameObject, 3);
+		Destroy(gameObject, timeToDie);
 	}
 
 }

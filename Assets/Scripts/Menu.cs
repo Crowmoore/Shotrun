@@ -4,34 +4,53 @@ using System.Collections;
 
 public class Menu : MonoBehaviour {
 
-	public Canvas quitMenu;
-	public Button startText;
-	public Button exitText;
+	
+	public Canvas confirmationCanvas;
+	public Button startButton;
+	public Button quitButton;
 
+	private bool show = true;
+	private bool hide = false;
 	// Use this for initialization
 	void Start () {
-		quitMenu = quitMenu.GetComponent<Canvas>();
-		startText = startText.GetComponent<Button>();
-		exitText = exitText.GetComponent<Button>();
-		quitMenu.enabled = false;
+		SetConfirmationCanvas();
+		SetStartButton();
+		SetQuitButton();
+		ConfirmationMenu(hide);
 	}
 	
-	public void ExitPress() {
-		quitMenu.enabled = true;
-		startText.enabled = false;
-		exitText.enabled = false;
+	public void OnQuitButtonPress() {
+		ConfirmationMenu(show);
+		QuitButton(hide);
+		StartButton(hide);
 	}
-
-	public void NoPress() {
-		quitMenu.enabled = false;
-		startText.enabled = true;
-		exitText.enabled = true;
+	public void OnNoButtonPress() {
+		ConfirmationMenu(hide);
+		QuitButton(show);
+		StartButton(show);
 	}
-
-	public void StartLevel() {
-		Application.LoadLevel("test");
-	}
-	public void ExitGame() {
+	public void OnYesButtonPress() {
 		Application.Quit();
+	}
+	private void ConfirmationMenu(bool state) {
+		confirmationCanvas.enabled = state;
+	}
+	private void QuitButton(bool state) {
+		quitButton.enabled = state;
+	}
+	private void StartButton(bool state) {
+		startButton.enabled = state;
+	}
+	private void SetConfirmationCanvas() {
+		confirmationCanvas = confirmationCanvas.GetComponent<Canvas>();
+	}
+	private void SetStartButton() {
+		startButton = startButton.GetComponent<Button>();
+	}
+	private void SetQuitButton() {
+		quitButton = quitButton.GetComponent<Button>();
+	}
+	public void StartGame() {
+		Application.LoadLevel("test");
 	}
 }

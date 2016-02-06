@@ -7,14 +7,18 @@ public class Controller : MonoBehaviour {
 	public LayerMask collisionMask;
 
 	const float skinWidth = .015f;
-	public int horizontalRayCount = 4;
-	public int verticalRayCount = 4;
+	private int horizontalRayCount = 4;
+	private int verticalRayCount = 4;
+	private float horizontalRaySpacing;
+	private float verticalRaySpacing;
+	private int left = -1;
+	private int right = 1;
+	private int down = -1;
+	private int up = 1;
+	private int stopped = 0;
 
-	float horizontalRaySpacing;
-	float verticalRaySpacing;
-
-	BoxCollider2D collider;
-	RaycastOrigins raycastOrigins;
+	private BoxCollider2D collider;
+	private RaycastOrigins raycastOrigins;
 	public CollisionInfo collisions;
 
 	void Start() {
@@ -25,13 +29,12 @@ public class Controller : MonoBehaviour {
 	public void Move(Vector3 velocity) {
 		UpdateRaycastOrigins();
 		collisions.Reset();
-		if(velocity.x != 0) {
+		if(velocity.x != stopped) {
 			HorizontalCollisions(ref velocity);
 		}
-		if(velocity.y != 0) {
+		if(velocity.y != stopped) {
 			VerticalCollisions(ref velocity);
 		}
-
 		transform.Translate(velocity);
 	}
 
@@ -40,7 +43,7 @@ public class Controller : MonoBehaviour {
 		float rayLength = Mathf.Abs (velocity.x) + skinWidth; 
 
 		for(int i = 0; i < horizontalRayCount; i++) {
-			Vector2 rayOrigin = (directionX == -1)?raycastOrigins.bottomLeft:raycastOrigins.bottomRight;
+			Vector2 rayOrigin = (directionX == left)?raycastOrigins.bottomLeft:raycastOrigins.bottomRight;
 			rayOrigin += Vector2.up * (horizontalRaySpacing * i);
 			RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.right * directionX, rayLength, collisionMask);
 
@@ -49,8 +52,8 @@ public class Controller : MonoBehaviour {
 			if(hit) {
 				//velocity.x = (hit.distance - skinWidth) * directionX;
 				//rayLength = hit.distance;
-				collisions.left = directionX == -1;
-				collisions.right = directionX == 1;
+				collisions.left = directionX == left;
+				collisions.right = directionX == right;
 				if(collisions.right) {
 					PlayerDeath();
 					Destroy(gameObject);
@@ -63,7 +66,7 @@ public class Controller : MonoBehaviour {
 		float directionY = Mathf.Sign(velocity.y);
 		float rayLength = Mathf.Abs (velocity.y) + skinWidth; 
 		for(int i = 0; i < verticalRayCount; i++) {
-			Vector2 rayOrigin = (directionY == -1)?raycastOrigins.bottomLeft:raycastOrigins.topLeft;
+			Vector2 rayOrigin = (directionY == down)?raycastOrigins.bottomLeft:raycastOrigins.topLeft;
 			rayOrigin += Vector2.right * (verticalRaySpacing * i + velocity.x);
 			RaycastHit2D hit = Physics2D.Raycast(rayOrigin, Vector2.up * directionY, rayLength, collisionMask);
 
@@ -73,8 +76,8 @@ public class Controller : MonoBehaviour {
 				velocity.y = (hit.distance - skinWidth) * directionY;
 				//rayLength = hit.distance;
 
-				collisions.below = directionY == -1;
-				collisions.above = directionY == 1;
+				collisions.below = directionY == down;
+				collisions.above = directionY == up;
 				if(collisions.above) {
 					PlayerDeath();
 					Destroy(gameObject);
