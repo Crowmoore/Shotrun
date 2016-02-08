@@ -3,10 +3,10 @@ using System.Collections;
 
 public class Scroll : MonoBehaviour {
 
-	private float speed = 0.1f;
+	public float speed = 5f;
 	
 	// Update is called once per frame
 	void Update () {
-		gameObject.GetComponent<Renderer>().material.mainTextureOffset = new Vector2(Time.time * speed, 0f);
+		transform.Translate(Vector2.right * Time.deltaTime * speed);
 	}
 }
